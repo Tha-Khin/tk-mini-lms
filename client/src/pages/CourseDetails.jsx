@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import Loading from '../components/Loading'
 import { assets } from '../assets/assets'
@@ -8,22 +8,27 @@ import Footer from '../components/Footer'
 import YouTube from 'react-youtube'
 import { toast } from 'react-toastify'
 import OtherCourses from '../components/OtherCourses'
+import axios from 'axios'
 
 const CourseDetails = () => {
   const {id} = useParams()
   const [courseData, setCourseData] = useState(null)
   const [playerData, setPlayerData] = useState(null)
 
-  const {calculateCourseDuration, allCourses} = useContext(AppContext)
+  const {calculateCourseDuration, allCourses, backendUrl} = useContext(AppContext)
 
   const fetchCourseData = async ()=>{
     try {
       const course = allCourses.find((c)=> c.id === Number(id))
-
       if(course){
         setCourseData(course)
       }else{
-        toast.error("Error in Fetching a Single Course Data")
+        const {data} = await axios.get(backendUrl + `/api/courses/${id}`)
+        if(data.success){
+          setCourseData(data.data)
+        }else{
+          toast.error("Error in Fetching a Single Course Data")
+        }
       }
     } catch (error) {
       toast.error(error.message)
@@ -32,7 +37,7 @@ const CourseDetails = () => {
 
   useEffect(()=>{
     fetchCourseData()
-  }, [id])
+  }, [id, allCourses])
 
   return courseData ? ( 
     <>
@@ -98,7 +103,7 @@ const CourseDetails = () => {
             <p>{calculateCourseDuration(courseData)}</p>
           </div>
         </div>
-        <button className='md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium'>Take Quiz</button>
+        <button onClick={() => window.open(courseData.quiz_link, "_blank", "noopener,noreferrer")} className='md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium cursor-pointer'>Take Quiz</button>
       </div>
     </div>
     <OtherCourses currentId={id}/>

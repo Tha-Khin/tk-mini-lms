@@ -5,7 +5,7 @@ import { AppContext } from "../context/AppContext";
 import Loading from "../components/Loading";
 
 const ProtectedRoutes = () => {
-    const { token, expiry } = useContext(AppContext)
+    const { token, expiry, backendUrl } = useContext(AppContext)
     const [isValid, setIsValid] = useState(null);
 
     useEffect(() => {
@@ -14,7 +14,7 @@ const ProtectedRoutes = () => {
             return;
         }
 
-        axios.post('/api', { action: "checkToken", token })
+        axios.post(backendUrl + '/api/auth/check', { action: "checkToken", token }, {headers: {'Content-Type': 'application/json'}})
         .then(res => setIsValid(res.data.success))
         .catch(() => setIsValid(false));
     }, [token, expiry]);

@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 export const AppContext = createContext()
 
 export const AppContextProvider = (props)=>{
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const token = localStorage.getItem("token");
     const expiry = localStorage.getItem("expiry");
     const [allCourses, setAllCourses] = useState([])
@@ -15,7 +16,7 @@ export const AppContextProvider = (props)=>{
     // Fetch All Courses
     const fetchAllCourses = async ()=>{
         try {
-            const {data} = await axios.get('/api' + '?action=getCourses')
+            const {data} = await axios.get(backendUrl + '/api/courses/all')
             if(data.success){
                 setAllCourses(data.data)
             }else{
@@ -34,7 +35,7 @@ export const AppContextProvider = (props)=>{
     }
 
     const logout = async () => {
-        const {data} = await axios.post('/api', { action: "logout", token });
+        const {data} = await axios.post(backendUrl + '/api/auth/logout', { action: "logout", token }, {headers: {'Content-Type': 'application/json'}});
         if(data.success){
             toast.success(data.message);
             localStorage.clear();
@@ -49,7 +50,7 @@ export const AppContextProvider = (props)=>{
     }, [])
 
     const value = {
-        allCourses, navigate, calculateCourseDuration, token, expiry, logout
+        allCourses, navigate, calculateCourseDuration, token, expiry, logout, backendUrl
     }
 
     return (

@@ -7,9 +7,11 @@ import { checkToken, login, logout } from './controllers/authController.js';
 // Initialize Express
 const app = express()
 
+const allowedOrigins = ['http://localhost:5173', 'https://tk-mini-lms.vercel.app'];
+
 // Middlewares
 app.use(express.json());
-app.use(cors())
+app.use(cors({origin: allowedOrigins}))
 
 // Routes
 app.get('/', (req, res)=> res.send("API Working"))

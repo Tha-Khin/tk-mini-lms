@@ -51,7 +51,7 @@ const CourseDetails = () => {
         
         <div className='pt-8 text-gray-800'>
           <h2 className='text-xl font-semibold'>Course Structure</h2>
-          <div className='border border-gray-300 bg-white mb-2 rounded md:min-w-xl'>
+          <div className='border border-gray-300 bg-white mb-2 rounded max-w-100 min-w-[420px] md:min-w-[600px] mt-2'>
             <div className='flex items-center justify-between px-4 py-3 cursor-pointer select-none'>
               <div className='flex items-center gap-2'>
                 <img src={assets.down_arrow_icon} alt="arrow icon" />
@@ -67,9 +67,7 @@ const CourseDetails = () => {
                     <div className='flex items-center justify-between w-full text-gray-800 text-xs md:text-default'>
                       <p>{lecture[0]}</p>
                       <div className='flex gap-2'>
-                        <p onClick={()=> setPlayerData({
-                          videoId: lecture[1]
-                        })} className='text-blue-500 cursor-pointer ml-2'>Play Video</p>
+                        <p onClick={()=> {setPlayerData({videoId: lecture[1]}); window.scrollTo({ top: 0, behavior: "smooth" })}} className='text-blue-500 cursor-pointer ml-2'>Play Video</p>
                         <p>{humanizeDuration(lecture[2] * 60 * 1000, {units: ['h', 'm']})}</p>
                       </div>
                     </div>

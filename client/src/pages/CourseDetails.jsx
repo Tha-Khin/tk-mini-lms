@@ -6,7 +6,6 @@ import { assets } from '../assets/assets'
 import humanizeDuration from 'humanize-duration'
 import Footer from '../components/Footer'
 import YouTube from 'react-youtube'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const CourseDetails = () => {
@@ -14,14 +13,14 @@ const CourseDetails = () => {
   const [courseData, setCourseData] = useState(null)
   const [playerData, setPlayerData] = useState(null)
 
-  const {calculateCourseDuration, backendUrl} = useContext(AppContext)
+  const {calculateCourseDuration, allCourses} = useContext(AppContext)
 
   const fetchCourseData = async ()=>{
     try {
-      const {data} = await axios.get(backendUrl + '/api/courses/' + id)
+      const course = allCourses.find((c)=> c.id === Number(id))
 
-      if(data.success){
-        setCourseData(data.data)
+      if(course){
+        setCourseData(course)
       }else{
         toast.error("Error in Fetching a Single Course Data")
       }
@@ -41,7 +40,7 @@ const CourseDetails = () => {
       {/* left column */}
       <div className='max-w-xl z-10 text-gray-500'>
         <h1 className='md:text-course-details-heading-large text-course-details-heading-small font-semibold text-gray-800'>{courseData.title}</h1>
-        <p className='text-sm'>Course by <span className='text-blue-600 underline'>TK Co., Ltd</span></p>
+        <p className='text-sm'>Course of <span className='text-blue-600 underline'>TK Co., Ltd</span></p>
         <p className='pt-6 md:text-base text-sm' dangerouslySetInnerHTML={{__html: courseData.description.slice(0,200)}}></p>
         
         <div className='pt-8 text-gray-800'>

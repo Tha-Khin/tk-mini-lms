@@ -7,6 +7,7 @@ import humanizeDuration from 'humanize-duration'
 import Footer from '../components/Footer'
 import YouTube from 'react-youtube'
 import { toast } from 'react-toastify'
+import OtherCourses from '../components/OtherCourses'
 
 const CourseDetails = () => {
   const {id} = useParams()
@@ -31,7 +32,7 @@ const CourseDetails = () => {
 
   useEffect(()=>{
     fetchCourseData()
-  }, [])
+  }, [id])
 
   return courseData ? ( 
     <>
@@ -100,6 +101,7 @@ const CourseDetails = () => {
         <button className='md:mt-6 mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium'>Take Quiz</button>
       </div>
     </div>
+    <OtherCourses currentId={id}/>
     <Footer/>
     </>
   ) : <Loading/>

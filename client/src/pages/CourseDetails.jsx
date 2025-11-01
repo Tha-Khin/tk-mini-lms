@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import Loading from '../components/Loading'
 import { assets } from '../assets/assets'
@@ -15,7 +15,13 @@ const CourseDetails = () => {
   const [courseData, setCourseData] = useState(null)
   const [playerData, setPlayerData] = useState(null)
 
-  const {calculateCourseDuration, allCourses, backendUrl} = useContext(AppContext)
+  const {allCourses, backendUrl} = useContext(AppContext)
+
+  const calculateCourseDuration = (course)=>{
+    let time = 0
+    JSON.parse(course.lessons).map((lesson)=> time += lesson[2])
+    return humanizeDuration(time * 60 * 1000, {units: ["h", "m"]})
+  }
 
   const fetchCourseData = async ()=>{
     try {
@@ -23,7 +29,7 @@ const CourseDetails = () => {
       if(course){
         setCourseData(course)
       }else{
-        const {data} = await axios.get(backendUrl + `/api/courses/${id}`)
+        const {data} = await axios.get(backendUrl + '/api/courses/' + id)
         if(data.success){
           setCourseData(data.data)
         }else{

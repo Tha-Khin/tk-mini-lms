@@ -14,6 +14,7 @@ const OtherCourses = ({currentId}) => {
         title: row.title,
         description: row.description,
         image_url: row.image_url,
+        lessons: row.lessons
       });
     }
   });

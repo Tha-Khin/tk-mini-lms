@@ -51,7 +51,7 @@ const CourseDetails = () => {
         
         <div className='pt-8 text-gray-800'>
           <h2 className='text-xl font-semibold'>Course Structure</h2>
-          <div className='border border-gray-300 bg-white mb-2 rounded max-w-100 min-w-[350px] md:min-w-[600px] mt-2'>
+          <div className='border border-gray-300 bg-white mb-2 rounded max-w-80 min-w-[260px] md:min-w-[600px] mt-2'>
             <div className='flex items-center justify-between px-4 py-3 cursor-pointer select-none'>
               <div className='flex items-center gap-2'>
                 <img src={assets.down_arrow_icon} alt="arrow icon" />

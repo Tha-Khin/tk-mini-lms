@@ -15,13 +15,7 @@ const CourseDetails = () => {
   const [courseData, setCourseData] = useState(null)
   const [playerData, setPlayerData] = useState(null)
 
-  const {allCourses, backendUrl} = useContext(AppContext)
-
-  const calculateCourseDuration = (course)=>{
-    let time = 0
-    JSON.parse(course.lessons).map((lesson)=> time += lesson[2])
-    return humanizeDuration(time * 60 * 1000, {units: ["h", "m"]})
-  }
+  const {allCourses, backendUrl, calculateCourseDuration} = useContext(AppContext)
 
   const fetchCourseData = async ()=>{
     try {

@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-import { getAllCourses, getCourseById } from './controllers/courseController.js';
+import { getAllCourses, getCourseById, getImage } from './controllers/courseController.js';
 import { checkToken, login, logout } from './controllers/authController.js';
 
 // Initialize Express
@@ -20,6 +20,7 @@ app.post('/api/auth/check', checkToken)
 app.post('/api/auth/logout', logout)
 app.get('/api/courses/all', getAllCourses)
 app.get('/api/courses/:id', getCourseById)
+app.get('/api/image', getImage)
 
 // Port
 const PORT = process.env.PORT || 5000

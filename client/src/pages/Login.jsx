@@ -16,8 +16,6 @@ const Login = () => {
       try {
         const {data} = await axios.post(backendUrl + '/api/auth/login', {action: "login", email, password}, {headers: {'Content-Type': 'application/json'}})
 
-        // const {data} = await axios.post('https://script.google.com/macros/s/AKfycbztQ-CJE4JyX6O4nSZjzBJUk5P4T1wlvRsMAes0IUTnQhTCnX5mc_Bau4RiP4VA2zUY/exec', {action: "login", email, password}, {headers: {'Content-Type': 'application/json'}})
-
         if(data.success){
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("token", data.token);

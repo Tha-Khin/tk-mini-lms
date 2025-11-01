@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from "react-toastify";
+import humanizeDuration from 'humanize-duration'
 
 export const AppContext = createContext()
 
@@ -26,6 +27,12 @@ export const AppContextProvider = (props)=>{
         }
     }
 
+    const calculateCourseDuration = (course)=>{
+      let time = 0
+      JSON.parse(course.lessons).map((lesson)=> time += lesson[2])
+      return humanizeDuration(time * 60 * 1000, {units: ["h", "m"]})
+    }
+
     const logout = async () => {
         const {data} = await axios.post(backendUrl + '/api/auth/logout', { action: "logout", token }, {headers: {'Content-Type': 'application/json'}});
         if(data.success){
@@ -42,7 +49,7 @@ export const AppContextProvider = (props)=>{
     }, [])
 
     const value = {
-        allCourses, navigate, token, expiry, logout, backendUrl
+        allCourses, navigate, token, expiry, logout, backendUrl, calculateCourseDuration
     }
 
     return (
